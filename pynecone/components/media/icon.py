@@ -34,7 +34,7 @@ class Icon(ChakraIconComponent):
             raise AttributeError(
                 f"Passing children to Icon component is not allowed: remove positional arguments {children} to fix"
             )
-        if "tag" not in props.keys():
+        if "tag" in props:
+            return super().create(*children, **props)
+        else:
             raise AttributeError("Missing 'tag' keyword-argument for Icon")
-
-        return super().create(*children, **props)

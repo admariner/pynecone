@@ -608,12 +608,10 @@ def get_process_on_port(port) -> Optional[psutil.Process]:
         The process on the given port.
     """
     for proc in psutil.process_iter(["pid", "name", "cmdline"]):
-        try:
+        with contextlib.suppress(psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
             for conns in proc.connections(kind="inet"):
                 if conns.laddr.port == int(port):
                     return proc
-        except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
-            pass
     return None
 
 
@@ -659,14 +657,12 @@ def change_or_terminate_port(port, _type) -> str:
     elif frontend_action == "c":
         new_port = Prompt.ask("Specify the new port")
 
-        # Check if also the new port is used
         if is_process_on_port(new_port):
             return change_or_terminate_port(new_port, _type)
-        else:
-            console.print(
-                f"The {_type} will run on port [bold underline]{new_port}[/bold underline]."
-            )
-            return new_port
+        console.print(
+            f"The {_type} will run on port [bold underline]{new_port}[/bold underline]."
+        )
+        return new_port
     else:
         console.print("Exiting...")
         sys.exit()
@@ -976,10 +972,7 @@ def format_route(route: str) -> str:
     route = to_snake_case(route).replace("_", "-")
 
     # If the route is empty, return the index route.
-    if route == "":
-        return constants.INDEX_ROUTE
-
-    return route
+    return constants.INDEX_ROUTE if route == "" else route
 
 
 def format_cond(

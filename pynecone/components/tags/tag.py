@@ -65,22 +65,16 @@ class Tag(Base):
                 return json.dumps(prop.full_name)
             prop = prop.full_name
 
-        # Handle event props.
         elif isinstance(prop, EventChain):
             local_args = ",".join(prop.events[0].local_args)
             events = ",".join([utils.format_event(event) for event in prop.events])
             prop = f"({local_args}) => Event([{events}])"
 
-        # Handle other types.
         elif isinstance(prop, str):
-            if utils.is_wrapped(prop, "{"):
-                return prop
-            return json.dumps(prop)
-
+            return prop if utils.is_wrapped(prop, "{") else json.dumps(prop)
         elif isinstance(prop, Figure):
             prop = json.loads(to_json(prop))["data"]
 
-        # For dictionaries, convert any properties to strings.
         else:
             if isinstance(prop, dict):
                 # Convert any var keys to strings.
@@ -126,18 +120,15 @@ class Tag(Base):
         # Get the tag props.
         props_str = self.format_props()
         if len(props_str) > 0:
-            props_str = " " + props_str
+            props_str = f" {props_str}"
 
         if len(self.contents) == 0:
             # If there is no inner content, we don't need a closing tag.
-            tag_str = utils.wrap(f"{self.name}{props_str}/", "<")
-        else:
-            # Otherwise wrap it in opening and closing tags.
-            open = utils.wrap(f"{self.name}{props_str}", "<")
-            close = utils.wrap(f"/{self.name}", "<")
-            tag_str = utils.wrap(self.contents, open, close)
-
-        return tag_str
+            return utils.wrap(f"{self.name}{props_str}/", "<")
+        # Otherwise wrap it in opening and closing tags.
+        open = utils.wrap(f"{self.name}{props_str}", "<")
+        close = utils.wrap(f"/{self.name}", "<")
+        return utils.wrap(self.contents, open, close)
 
     def add_props(self, **kwargs: Optional[Any]) -> Tag:
         """Add props to the tag.

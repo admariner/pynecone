@@ -2,7 +2,6 @@
 name: Bug report
 about: Create a report to help us improve
 title: ''
-labels: ''
 assignees: ''
 
 ---
@@ -20,9 +19,9 @@ A clear and concise description of what you expected to happen.
 **Screenshots**
 If applicable, add screenshots to help explain your problem.
 
-** Specifics (please complete the following information):**
+**Specifics (please complete the following information):**
  - Python Version:
- - Pynecone Version:
+ - Reflex Version:
  - OS: 
  - Browser (Optional):
  

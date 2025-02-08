@@ -4,8 +4,8 @@
 
 | Version    | Supported          |
 | ---------- | ------------------ |
-| >= 0.1.8   | :white_check_mark: |
+| >= 0.1.18   | :white_check_mark: |
 
 ## Reporting a Vulnerability
 
-Please report any security vulnerabilities to contact@pynecone.io
+Please report any security vulnerabilities to contact@reflex.dev

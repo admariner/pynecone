@@ -1,227 +1,262 @@
+```diff
++ Searching for Pynecone? You are in the right repo. Pynecone has been renamed to Reflex. +
+```
+
 <div align="center">
+<img src="https://raw.githubusercontent.com/reflex-dev/reflex/main/docs/images/reflex_dark.svg#gh-light-mode-only" alt="Reflex Logo" width="300px">
+<img src="https://raw.githubusercontent.com/reflex-dev/reflex/main/docs/images/reflex_light.svg#gh-dark-mode-only" alt="Reflex Logo" width="300px">
 
-<h1 align="center">
-  <img width="600" src="docs/images/logo.svg#gh-light-mode-only" alt="Pynecone Logo">
-  <img width="600" src="docs/images/logo_white.svg#gh-dark-mode-only" alt="Pynecone Logo">
-</h1>
+<hr>
 
-**Build performant, customizable web apps in pure Python.**
-
-[![PyPI version](https://badge.fury.io/py/pynecone.svg)](https://badge.fury.io/py/pynecone)
-![tests](https://github.com/pynecone-io/pynecone/actions/workflows/build.yml/badge.svg)
-![versions](https://img.shields.io/pypi/pyversions/pynecone-io.svg)
-[![License](https://img.shields.io/badge/License-Apache_2.0-yellowgreen.svg)](https://opensource.org/licenses/Apache-2.0)  
+### **✨ Performant, customizable web apps in pure Python. Deploy in seconds. ✨**
+[![PyPI version](https://badge.fury.io/py/reflex.svg)](https://badge.fury.io/py/reflex)
+![versions](https://img.shields.io/pypi/pyversions/reflex.svg)
+[![Documentation](https://img.shields.io/badge/Documentation%20-Introduction%20-%20%23007ec6)](https://reflex.dev/docs/getting-started/introduction)
 [![Discord](https://img.shields.io/discord/1029853095527727165?color=%237289da&label=Discord)](https://discord.gg/T5WSbC2YtQ)
+</div>
 
-<div align="left">
+---
 
-## Getting Started
+[English](https://github.com/reflex-dev/reflex/blob/main/README.md) | [简体中文](https://github.com/reflex-dev/reflex/blob/main/docs/zh/zh_cn/README.md) | [繁體中文](https://github.com/reflex-dev/reflex/blob/main/docs/zh/zh_tw/README.md) | [Türkçe](https://github.com/reflex-dev/reflex/blob/main/docs/tr/README.md) | [हिंदी](https://github.com/reflex-dev/reflex/blob/main/docs/in/README.md) | [Português (Brasil)](https://github.com/reflex-dev/reflex/blob/main/docs/pt/pt_br/README.md) | [Italiano](https://github.com/reflex-dev/reflex/blob/main/docs/it/README.md) | [Español](https://github.com/reflex-dev/reflex/blob/main/docs/es/README.md) | [한국어](https://github.com/reflex-dev/reflex/blob/main/docs/kr/README.md) | [日本語](https://github.com/reflex-dev/reflex/blob/main/docs/ja/README.md) | [Deutsch](https://github.com/reflex-dev/reflex/blob/main/docs/de/README.md) | [Persian (پارسی)](https://github.com/reflex-dev/reflex/blob/main/docs/pe/README.md) | [Tiếng Việt](https://github.com/reflex-dev/reflex/blob/main/docs/vi/README.md)
 
-Pynecone is a full-stack Python framework that makes it easy to build and deploy web apps in minutes. All the information for getting started can be found in this README. However, a more detailed explanation of the following topics can be found on our website:
+---
 
-<div align="center">
+# Reflex
 
-### [Docs](https://pynecone.io/docs/getting-started/introduction) | [Component Library](https://pynecone.io/docs/library) | [Gallery](https://pynecone.io/docs/gallery) | [Deployment](https://pynecone.io/docs/hosting/deploy) 
+Reflex is a library to build full-stack web apps in pure Python.
 
-<div align="left">
+Key features:
+* **Pure Python** - Write your app's frontend and backend all in Python, no need to learn Javascript.
+* **Full Flexibility** - Reflex is easy to get started with, but can also scale to complex apps.
+* **Deploy Instantly** - After building, deploy your app with a [single command](https://reflex.dev/docs/hosting/deploy-quick-start/) or host it on your own server.
 
-## Installation
-  
-Pynecone requires the following to get started:
+See our [architecture page](https://reflex.dev/blog/2024-03-21-reflex-architecture/#the-reflex-architecture) to learn how Reflex works under the hood.
 
-* Python 3.7+
-* [Node.js 12.22.0+](https://nodejs.org/en/) (Don't worry, you'll never have to write any Javascript)
+## ⚙️ Installation
 
-```
-$ pip install pynecone
-```
+Open a terminal and run (Requires Python 3.10+):
 
-## Create your first Pynecone App
-
-Installing Pynecone also installs the `pc` command line tool. Test that the install was successful by creating a new project. 
-
-Replace my_app_name with your project name:
-
-```
-$ mkdir my_app_name
-$ cd my_app_name
-$ pc init
+```bash
+pip install reflex
 ```
 
-When you run this command for the first time, we will download and install [bun](https://bun.sh/) automatically.
+## 🥳 Create your first app
 
-This command initializes a template app in your new directory.
+Installing `reflex` also installs the `reflex` command line tool.
+
+Test that the install was successful by creating a new project. (Replace `my_app_name` with your project name):
+
+```bash
+mkdir my_app_name
+cd my_app_name
+reflex init
+```
+
+This command initializes a template app in your new directory. 
+
 You can run this app in development mode:
-```
-$ pc run
+
+```bash
+reflex run
 ```
 
 You should see your app running at http://localhost:3000.
 
+Now you can modify the source code in `my_app_name/my_app_name.py`. Reflex has fast refreshes so you can see your changes instantly when you save your code.
 
-Now you can modify the source code in `my_app_name/my_app_name.py`. Pynecone has fast refreshes so you can see your changes instantly when you save your code.
 
+## 🫧 Example App
 
-## Example Pynecone App
+Let's go over an example: creating an image generation UI around [DALL·E](https://platform.openai.com/docs/guides/images/image-generation?context=node). For simplicity, we just call the [OpenAI API](https://platform.openai.com/docs/api-reference/authentication), but you could replace this with an ML model run locally.
 
-Let's go over an example of creating a UI around DALL·E. For simplicity of the example below, we call the OpenAI DALL·E API, but you could replace this with any ML model locally.
+&nbsp;
 
 <div align="center">
-<img src="docs/images/dalle.gif" alt="drawing" width="550" style="border-radius:2%"/>
-<div align="left">
+<img src="https://raw.githubusercontent.com/reflex-dev/reflex/main/docs/images/dalle.gif" alt="A frontend wrapper for DALL·E, shown in the process of generating an image." width="550" />
+</div>
+
+&nbsp;
 
 Here is the complete code to create this. This is all done in one Python file!
 
+
+  
 ```python
-import pynecone as pc
+import reflex as rx
 import openai
 
-openai.api_key = "YOUR_API_KEY"
+openai_client = openai.OpenAI()
 
-class State(pc.State):
+
+class State(rx.State):
     """The app state."""
+
     prompt = ""
     image_url = ""
-    image_processing = False
-    image_made = False
-
-    def process_image(self):
-        """Set the image processing flag to true and indicate image is not made yet."""
-        self.image_processing = True
-        self.image_made = False        
+    processing = False
+    complete = False
 
     def get_image(self):
         """Get the image from the prompt."""
-        response = openai.Image.create(prompt=self.prompt, n=1, size="1024x1024")
-        self.image_url = response["data"][0]["url"]
-        self.image_processing = False
-        self.image_made = True
+        if self.prompt == "":
+            return rx.window_alert("Prompt Empty")
+
+        self.processing, self.complete = True, False
+        yield
+        response = openai_client.images.generate(
+            prompt=self.prompt, n=1, size="1024x1024"
+        )
+        self.image_url = response.data[0].url
+        self.processing, self.complete = False, True
+
 
 def index():
-    return pc.center(
-        pc.vstack(
-            pc.heading("DALL·E", font_size="1.5em"),
-            pc.input(placeholder="Enter a prompt..", on_blur=State.set_prompt),
-            pc.button(
-                "Generate Image",
-                on_click=[State.process_image, State.get_image],
-                width="100%",
+    return rx.center(
+        rx.vstack(
+            rx.heading("DALL-E", font_size="1.5em"),
+            rx.input(
+                placeholder="Enter a prompt..",
+                on_blur=State.set_prompt,
+                width="25em",
             ),
-            pc.divider(),
-            pc.cond(
-                State.image_processing,
-                pc.circular_progress(is_indeterminate=True),
-                pc.cond(
-                     State.image_made,
-                     pc.image(
-                         src=State.image_url,
-                         height="25em",
-                         width="25em",
-                    )
-                )
+            rx.button(
+                "Generate Image", 
+                on_click=State.get_image,
+                width="25em",
+                loading=State.processing
             ),
-            bg="white",
-            padding="2em",
-            shadow="lg",
-            border_radius="lg",
+            rx.cond(
+                State.complete,
+                rx.image(src=State.image_url, width="20em"),
+            ),
+            align="center",
         ),
         width="100%",
         height="100vh",
-        bg="radial-gradient(circle at 22% 11%,rgba(62, 180, 137,.20),hsla(0,0%,100%,0) 19%)",
     )
 
 # Add state and page to the app.
-app = pc.App(state=State)
-app.add_page(index, title="Pynecone:DALL·E")
-app.compile()
+app = rx.App()
+app.add_page(index, title="Reflex:DALL-E")
 ```
-Let's break this down.
 
-### **UI In Pynecone**
+
+
+
+
+## Let's break this down.
+
+<div align="center">
+<img src="docs/images/dalle_colored_code_example.png" alt="Explaining the differences between backend and frontend parts of the DALL-E app." width="900" />
+</div>
+
+
+### **Reflex UI**
 
 Let's start with the UI.
 
-```python 
+```python
 def index():
-    return pc.center(
+    return rx.center(
         ...
     )
 ```
+
 This `index` function defines the frontend of the app.
 
 We use different components such as `center`, `vstack`, `input`, and `button` to build the frontend. Components can be nested within each other
- to create complex layouts. And you can use keyword args to style them with the full power of CSS.
+to create complex layouts. And you can use keyword args to style them with the full power of CSS.
 
-Pynecone comes with [60+ built-in components](https://pynecone.io/docs/library) to help you get started. We are actively adding more components, plus it's easy to [create your own components](https://pynecone.io/docs/advanced-guide/wrapping-react).
+Reflex comes with [60+ built-in components](https://reflex.dev/docs/library) to help you get started. We are actively adding more components, and it's easy to [create your own components](https://reflex.dev/docs/wrapping-react/overview/).
 
 ### **State**
 
-``` python
-class State(pc.State):
+Reflex represents your UI as a function of your state.
+
+```python
+class State(rx.State):
     """The app state."""
     prompt = ""
     image_url = ""
-    image_processing = False
-    image_made = False
+    processing = False
+    complete = False
+
 ```
+
 The state defines all the variables (called vars) in an app that can change and the functions that change them.
-Here the state is comprised of a `prompt` and `image_url`. There are also the booleans `image_processing` and `image_made` to indicate when to show the circular progress and image.
+
+Here the state is comprised of a `prompt` and `image_url`. There are also the booleans `processing` and `complete` to indicate when to disable the button (during image generation) and when to show the resulting image.
 
 ### **Event Handlers**
 
 ```python
-    def process_image(self):
-        """Set the image processing flag to true and indicate image is not made yet."""
-        self.image_processing = True
-        self.image_made = False        
+def get_image(self):
+    """Get the image from the prompt."""
+    if self.prompt == "":
+        return rx.window_alert("Prompt Empty")
 
-    def get_image(self):
-        """Get the image from the prompt."""
-        response = openai.Image.create(prompt=self.prompt, n=1, size="1024x1024")
-        self.image_url = response["data"][0]["url"]
-        self.image_processing = False
-        self.image_made = True
+    self.processing, self.complete = True, False
+    yield
+    response = openai_client.images.generate(
+        prompt=self.prompt, n=1, size="1024x1024"
+    )
+    self.image_url = response.data[0].url
+    self.processing, self.complete = False, True
 ```
-Within the state, we define functions called event handlers that change the state vars. Event handlers are the way that we can modify the state in Pynecone. They can be called in response to user actions, such as clicking a button or typing in a text box. These actions are called events.
 
-Our DALL·E. app has two event handlers, `process_image` to indicate that the image is being generated and `get_image`, which calls the OpenAI API.
+Within the state, we define functions called event handlers that change the state vars. Event handlers are the way that we can modify the state in Reflex. They can be called in response to user actions, such as clicking a button or typing in a text box. These actions are called events.
 
-### **Routing** 
+Our DALL·E. app has an event handler, `get_image` to which get this image from the OpenAI API. Using `yield` in the middle of an event handler will cause the UI to update. Otherwise the UI will update at the end of the event handler.
 
-Finally we define our app and tell it what state to use.
+### **Routing**
+
+Finally, we define our app.
+
 ```python
-app = pc.App(state=State)
+app = rx.App()
 ```
-We add a route from the root of the app to the index component. We also add a title that will show up in the page preview/ browser tab.
+
+We add a page from the root of the app to the index component. We also add a title that will show up in the page preview/browser tab.
+
 ```python
-app.add_page(index, title="Pynecone:DALL-E")
-app.compile()
+app.add_page(index, title="DALL-E")
 ```
-You can create a multi-page app by adding more routes.
 
-## Status
+You can create a multi-page app by adding more pages.
 
-Pynecone launched in December 2022.
+## 📑 Resources
 
-As of March 2023, we are in the **Public Beta** stage.
+<div align="center">
 
- - :white_check_mark: **Public Alpha**: Anyone can install and use Pynecone. There may be issues, but we are working to resolve them actively.
- - :large_orange_diamond: **Public Beta**: Stable enough for non-enterprise use-cases.
- - **Public Hosting Beta**: **Optionally** Deploy and Host your own apps on Pynecone!
- - **Public**: Pynecone is production ready.
+📑 [Docs](https://reflex.dev/docs/getting-started/introduction) &nbsp; |  &nbsp; 🗞️ [Blog](https://reflex.dev/blog) &nbsp; |  &nbsp; 📱 [Component Library](https://reflex.dev/docs/library) &nbsp; |  &nbsp; 🖼️ [Templates](https://reflex.dev/templates/) &nbsp; |  &nbsp; 🛸 [Deployment](https://reflex.dev/docs/hosting/deploy-quick-start)  &nbsp;   
 
-Pynecone has new releases and features coming every week! Make sure to: :star: star and :eyes: watch this repository to stay up to date.
- 
+</div>
+
+
+## ✅ Status
+
+Reflex launched in December 2022 with the name Pynecone.
+
+As of February 2024, our hosting service is in alpha! During this time anyone can deploy their apps for free. See our [roadmap](https://github.com/reflex-dev/reflex/issues/2727) to see what's planned.
+
+Reflex has new releases and features coming every week! Make sure to :star: star and :eyes: watch this repository to stay up to date.
+
 ## Contributing
 
-We welcome contributions of any size! Below are some good ways to get started in the Pynecone community.
+We welcome contributions of any size! Below are some good ways to get started in the Reflex community.
 
-- **Join Our Discord**: Our [Discord](https://discord.gg/T5WSbC2YtQ) is the best place to get help on your Pynecone project and to discuss how you can contribute.
-- **GitHub Discussions**: A great way to talk about features you want added or things that are confusing/need clarification.
-- **GitHub Issues**: These are an excellent way to report bugs. Additionally, you can try and solve an existing issue and submit a PR.
+-   **Join Our Discord**: Our [Discord](https://discord.gg/T5WSbC2YtQ) is the best place to get help on your Reflex project and to discuss how you can contribute.
+-   **GitHub Discussions**: A great way to talk about features you want added or things that are confusing/need clarification.
+-   **GitHub Issues**: [Issues](https://github.com/reflex-dev/reflex/issues) are an excellent way to report bugs. Additionally, you can try and solve an existing issue and submit a PR.
 
-We are actively looking for contributors, no matter your skill level or experience.
+We are actively looking for contributors, no matter your skill level or experience. To contribute check out [CONTRIBUTING.md](https://github.com/reflex-dev/reflex/blob/main/CONTRIBUTING.md)
+
+
+## All Thanks To Our Contributors:
+<a href="https://github.com/reflex-dev/reflex/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=reflex-dev/reflex" />
+</a>
 
 ## License
 
-Pynecone is open-source and licensed under the [Apache License 2.0](LICENSE).
+Reflex is open-source and licensed under the [Apache License 2.0](LICENSE).

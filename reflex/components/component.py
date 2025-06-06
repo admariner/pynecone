@@ -52,6 +52,7 @@ from reflex.event import (
     EventSpec,
     no_args_event_spec,
     parse_args_spec,
+    pointer_event_spec,
     run_script,
     unwrap_var_annotation,
 )
@@ -491,12 +492,12 @@ def _components_from(
     return ()
 
 
-DEFAULT_TRIGGERS: dict[str, types.ArgsSpec | Sequence[types.ArgsSpec]] = {
+DEFAULT_TRIGGERS: Mapping[str, types.ArgsSpec | Sequence[types.ArgsSpec]] = {
     EventTriggers.ON_FOCUS: no_args_event_spec,
     EventTriggers.ON_BLUR: no_args_event_spec,
-    EventTriggers.ON_CLICK: no_args_event_spec,
-    EventTriggers.ON_CONTEXT_MENU: no_args_event_spec,
-    EventTriggers.ON_DOUBLE_CLICK: no_args_event_spec,
+    EventTriggers.ON_CLICK: pointer_event_spec,  # pyright: ignore [reportAssignmentType]
+    EventTriggers.ON_CONTEXT_MENU: pointer_event_spec,  # pyright: ignore [reportAssignmentType]
+    EventTriggers.ON_DOUBLE_CLICK: pointer_event_spec,  # pyright: ignore [reportAssignmentType]
     EventTriggers.ON_MOUSE_DOWN: no_args_event_spec,
     EventTriggers.ON_MOUSE_ENTER: no_args_event_spec,
     EventTriggers.ON_MOUSE_LEAVE: no_args_event_spec,
@@ -505,6 +506,7 @@ DEFAULT_TRIGGERS: dict[str, types.ArgsSpec | Sequence[types.ArgsSpec]] = {
     EventTriggers.ON_MOUSE_OVER: no_args_event_spec,
     EventTriggers.ON_MOUSE_UP: no_args_event_spec,
     EventTriggers.ON_SCROLL: no_args_event_spec,
+    EventTriggers.ON_SCROLL_END: no_args_event_spec,
     EventTriggers.ON_MOUNT: no_args_event_spec,
     EventTriggers.ON_UNMOUNT: no_args_event_spec,
 }
@@ -864,9 +866,8 @@ class Component(BaseComponent, ABC):
         for key, value in kwargs.items():
             setattr(self, key, value)
 
-    def get_event_triggers(
-        self,
-    ) -> dict[str, types.ArgsSpec | Sequence[types.ArgsSpec]]:
+    @classmethod
+    def get_event_triggers(cls) -> dict[str, types.ArgsSpec | Sequence[types.ArgsSpec]]:
         """Get the event triggers for the component.
 
         Returns:
@@ -883,9 +884,9 @@ class Component(BaseComponent, ABC):
                 )
                 else no_args_event_spec
             )
-            for name, field in self.get_fields().items()
+            for name, field in cls.get_fields().items()
             if field.type_origin is EventHandler
-        }
+        }  # pyright: ignore [reportOperatorIssue]
 
     def __repr__(self) -> str:
         """Represent the component in React.
@@ -2135,7 +2136,7 @@ class CustomComponent(Component):
                         annotation=arg._var_type,
                     )
                     for name, arg in zip(
-                        names, parse_args_spec(event.args_spec), strict=True
+                        names, parse_args_spec(event.args_spec)[0], strict=True
                     )
                 ]
             )

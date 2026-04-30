@@ -128,7 +128,7 @@ def test_generate_markdown_file_content_adds_agent_directive(monkeypatch, tmp_pa
     monkeypatch.setattr(
         "reflex_base.config.get_config",
         lambda: SimpleNamespace(
-            deploy_url="https://reflex.dev",
+            deploy_url="http://localhost:3000",
             frontend_path="/docs",
         ),
     )
@@ -153,6 +153,64 @@ def test_generate_markdown_file_content_adds_agent_directive(monkeypatch, tmp_pa
         "available by appending `.md` or sending `Accept: text/markdown`.\n\n"
         "# Overview"
     )
+
+
+def test_generate_markdown_file_content_appends_component_props_table(
+    monkeypatch, tmp_path
+):
+    """Component docs markdown includes generated API reference props tables."""
+    monkeypatch.setattr(
+        "reflex_base.config.get_config",
+        lambda: SimpleNamespace(
+            deploy_url="https://reflex.dev",
+            frontend_path="/docs",
+        ),
+    )
+    source = tmp_path / "button.md"
+    source.write_text(
+        "---\n"
+        "components:\n"
+        "  - rx.button\n"
+        "---\n\n"
+        "# Button\n\n"
+        "Buttons trigger actions.\n",
+        encoding="utf-8",
+    )
+
+    content = generate_markdown_file_content(
+        MarkdownFileEntry(
+            url_path=Path("library/forms/button.md"),
+            source_path=source,
+            title="Button",
+            section="Library",
+        )
+    )
+
+    assert "## API Reference\n\n### rx.button" in content
+    assert "#### Props" in content
+    assert "#### Event Triggers" in content
+    assert (
+        "Base event triggers: https://reflex.dev/docs/api-reference/event-triggers/"
+        in content
+    )
+    props_table = content.split("#### Props\n\n", maxsplit=1)[1].split(
+        "\n\n", maxsplit=1
+    )[0]
+    props_rows = props_table.splitlines()
+    assert props_rows[0].startswith("| Prop")
+    assert "Type" in props_rows[0]
+    assert "Default" in props_rows[0]
+    assert "Description" in props_rows[0]
+    assert props_rows[1] == "| --- | --- | --- | --- |"
+    assert "Literal[...]" not in props_table
+    assert "\\|" not in props_table
+    variant_rows = [row for row in props_rows if row.startswith("| `variant`")]
+    assert len(variant_rows) == 1
+    assert (
+        'Literal["classic", "solid", "soft", "surface", "outline", "ghost"]'
+        in variant_rows[0]
+    )
+    assert not any(row.split("|")[1].strip() == "" for row in props_rows[2:])
 
 
 def test_generate_dynamic_api_reference_files(monkeypatch):
